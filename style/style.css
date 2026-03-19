@@ -1,8 +1,9 @@
-/* --- RESET & FONTS --- */
+/* --- RESET & BASE --- */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
 }
 
 @font-face {
@@ -22,7 +23,8 @@ body {
 }
 
 .mine {
-  width: 360px;
+  width: 100%;
+  max-width: 450px;
   margin: 0 auto;
   background: #ebeae8;
   position: relative;
@@ -32,9 +34,10 @@ body {
 
 }
 
-
+/* --- HEARTS FALLING --- */
 .heart-container {
-  position: absolute;
+  position: fixed;
+
   top: 0;
   left: 0;
   width: 100%;
@@ -47,7 +50,6 @@ body {
   position: absolute;
   top: -50px;
   opacity: 0;
-  display: inline-block;
   animation: fallDown linear infinite;
 }
 
@@ -74,12 +76,8 @@ body {
     transform: translateX(20px) rotate(180deg);
   }
 
-  90% {
-    opacity: 0.7;
-  }
-
   100% {
-    top: 100%;
+    top: 110%;
     opacity: 0;
     transform: translateX(-20px) rotate(360deg);
   }
@@ -87,32 +85,34 @@ body {
 
 .heart-s:nth-child(odd) {
   animation-duration: 7s;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .heart-s:nth-child(even) {
   animation-duration: 10s;
-  font-size: 40px;
+  font-size: 28px;
 }
 
-
+/* --- HEADER SECTION --- */
 .name-blok {
   background-image: url("../img/2.jpg");
   width: 100%;
   background-size: cover;
+  background-position: center;
   height: 270px;
   display: flex;
   justify-content: center;
+  align-items: center;
   position: relative;
   z-index: 2;
 }
 
 .deco-top-animated {
   position: absolute;
-  margin-top: 20px;
-  height: 130px;
+  top: 20px;
+  height: clamp(80px, 20vw, 130px);
   opacity: 0;
-  transform: translateY(-50px) rotate(-15deg);
+  transform: translateY(-40px) rotate(-10deg);
   transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -121,28 +121,29 @@ body {
   transform: translateY(0) rotate(0deg);
 }
 
-h1 {
+.reveal-name {
   font-family: "CosiArm", serif;
   font-weight: 500;
   color: #fff;
-  font-size: 40px;
-  margin-top: -3px;
-  transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-size: clamp(32px, 10vw, 45px);
+  text-align: center;
   opacity: 0;
-  transform: scale(0.8);
+  transform: scale(0.85);
+  transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-h1.active {
+.reveal-name.active {
   opacity: 1;
   transform: scale(1);
 }
 
-h1 span {
+.reveal-name span {
   display: block;
-  margin-left: 135px;
-  margin-top: 10px;
+  margin-left: clamp(40px, 15vw, 130px);
+  margin-top: 5px;
 }
 
+/* --- PHOTO SECTION & FIXED SHINE --- */
 section.photo-section {
   text-align: center;
   margin-top: 30px;
@@ -153,7 +154,7 @@ section.photo-section {
 .img_one {
   display: flex;
   justify-content: center;
-  margin-top: -127px;
+  margin-top: -120px;
   position: relative;
   z-index: 10;
 }
@@ -161,9 +162,11 @@ section.photo-section {
 .shine-oval-container {
   position: relative;
   display: inline-block;
-  width: 60%;
+  width: clamp(200px, 65%, 300px);
   -webkit-clip-path: ellipse(63% 63% at 54% 58%);
   clip-path: ellipse(63% 63% at 54% 58%);
+  overflow: hidden;
+  /* Սա կտրում է փայլը նկարի եզրերով */
 }
 
 .img_one img {
@@ -175,22 +178,26 @@ section.photo-section {
 .shine-oval-container::after {
   content: '';
   position: absolute;
-  top: -50%;
-  left: -150%;
-  width: 100%;
-  height: 200%;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
   background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 100%);
-  transform: rotate(25deg);
-  animation: shine 4s infinite;
+  transform: skewX(-25deg);
+  animation: shine-fixed 4s infinite;
 }
 
-@keyframes shine {
+@keyframes shine-fixed {
   0% {
-    left: -150%;
+    left: -100%;
+  }
+
+  20% {
+    left: 120%;
   }
 
   100% {
-    left: 150%;
+    left: 120%;
   }
 }
 
@@ -199,20 +206,19 @@ section.photo-section {
   0%,
   100% {
     transform: translateY(0);
-    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
   }
 
   50% {
-    transform: translateY(-15px);
-    filter: drop-shadow(0 20px 10px rgba(0, 0, 0, 0.05));
+    transform: translateY(-12px);
   }
 }
 
+/* --- REVEAL ELEMENTS --- */
 .reveal {
   opacity: 0;
   filter: blur(8px);
-  transform: translateY(30px);
-  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateY(25px);
+  transition: all 1s ease-out;
 }
 
 .reveal.active {
@@ -221,93 +227,41 @@ section.photo-section {
   transform: translateY(0);
 }
 
-/* Staggered Delay for Time items */
-.time-item,
-.time-blok hr {
-  opacity: 0;
-  transform: translateY(15px);
-  transition: all 0.8s ease-out;
-}
-
-.time-blok.active .time-item:nth-child(2) {
-  transition-delay: 0.3s;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.time-blok.active hr:nth-child(3) {
-  transition-delay: 0.5s;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.time-blok.active .time-item:nth-child(4) {
-  transition-delay: 0.7s;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.time-blok.active hr:nth-child(5) {
-  transition-delay: 0.9s;
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.time-blok.active .time-item:nth-child(6) {
-  transition-delay: 1.1s;
-  opacity: 1;
-  transform: translateY(0);
-}
-
 .text-blok,
 .time-blok,
 .thanks-blok {
-  width: 94%;
+  width: 90%;
   margin: 40px auto;
   text-align: center;
   position: relative;
   z-index: 4;
 }
 
-.text-decor {
-  position: absolute;
-  width: 100%;
-  z-index: 1;
-  left: 0;
-}
-
-.inner-content {
-  position: relative;
-  z-index: 2;
-  padding-top: 20px;
-}
-
 h2,
 h3 {
   font-family: "CosiArm";
-  font-weight: 400;
-  margin-bottom: 15px;
   color: #373435;
+  font-size: clamp(22px, 6vw, 28px);
+  margin-bottom: 10px;
 }
 
 p {
-  font-family: "DejaVuSans";
+  font-size: clamp(13px, 4vw, 15px);
   color: #606062;
-  font-size: 14px;
   line-height: 1.6;
 }
 
 h4 {
   font-family: "CosiArm";
-  font-size: 50px;
-  margin: 15px 0 0;
+  font-size: clamp(45px, 12vw, 55px);
+  margin-top: 10px;
 }
 
 h5 {
   font-family: "CosiArm";
-  font-size: 28px;
-  letter-spacing: 26px;
-  margin-left: 29px;
+  font-size: clamp(22px, 5vw, 28px);
+  letter-spacing: clamp(10px, 4vw, 26px);
+  margin-left: 10px;
 }
 
 hr {
@@ -319,11 +273,11 @@ hr {
 }
 
 .deco-bottom-animated {
-  width: 60%;
+  width: 65%;
   margin: 20px 0;
   opacity: 0;
-  transform: scale(0.8);
-  transition: all 1.5s ease-out;
+  transform: scale(0.9);
+  transition: all 1s ease-out;
 }
 
 .active .deco-bottom-animated {
@@ -331,12 +285,28 @@ hr {
   transform: scale(1);
 }
 
-@media screen and (max-width: 767px) {
-  .mine {
-    width: 100%;
-  }
+/* --- TIME ITEM ANIMATION --- */
+.time-item,
+hr {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: 0.6s ease-out;
+}
 
-  h1 {
-    font-size: 10vw;
-  }
+.active .time-item,
+.active hr {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.active .time-item:nth-child(2) {
+  transition-delay: 0.2s;
+}
+
+.active hr:nth-child(3) {
+  transition-delay: 0.4s;
+}
+
+.active .time-item:nth-child(4) {
+  transition-delay: 0.6s;
 }
