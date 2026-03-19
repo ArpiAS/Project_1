@@ -25,19 +25,18 @@ body {
 .mine {
   width: 100%;
   max-width: 450px;
+  /* Սահմանափակում ենք մաքսիմալ լայնությունը */
   margin: 0 auto;
   background: #ebeae8;
   position: relative;
   z-index: 5;
   min-height: 100vh;
   overflow: hidden;
-
 }
 
-/* --- HEARTS FALLING --- */
+/* --- HEART FALLING --- */
 .heart-container {
   position: fixed;
-
   top: 0;
   left: 0;
   width: 100%;
@@ -85,15 +84,15 @@ body {
 
 .heart-s:nth-child(odd) {
   animation-duration: 7s;
-  font-size: 20px;
+  font-size: 40px;
 }
 
 .heart-s:nth-child(even) {
   animation-duration: 10s;
-  font-size: 28px;
+  font-size: 48px;
 }
 
-/* --- HEADER SECTION --- */
+/* --- NAME BLOK --- */
 .name-blok {
   background-image: url("../img/2.jpg");
   width: 100%;
@@ -102,7 +101,6 @@ body {
   height: 270px;
   display: flex;
   justify-content: center;
-  align-items: center;
   position: relative;
   z-index: 2;
 }
@@ -125,10 +123,12 @@ body {
   font-family: "CosiArm", serif;
   font-weight: 500;
   color: #fff;
-  font-size: clamp(32px, 10vw, 45px);
+  font-size: clamp(32px, 10vw, 40px);
+  /* Ճկուն չափս */
   text-align: center;
+  margin-top: 20px;
   opacity: 0;
-  transform: scale(0.85);
+  transform: scale(0.9);
   transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -139,11 +139,11 @@ body {
 
 .reveal-name span {
   display: block;
-  margin-left: clamp(40px, 15vw, 130px);
+  margin-left: clamp(40px, 15vw, 135px);
   margin-top: 5px;
 }
 
-/* --- PHOTO SECTION & FIXED SHINE --- */
+/* --- PHOTO SECTION (ՎԵՐԱԴԱՐՁՎԱԾ ԲՆԱԳԻՐ ՕՎԱԼՈՎ, ԿԵՆՏՐՈՆԱՑՎԱԾ) --- */
 section.photo-section {
   text-align: center;
   margin-top: 30px;
@@ -157,48 +157,28 @@ section.photo-section {
   margin-top: -120px;
   position: relative;
   z-index: 10;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.shine-oval-container {
+/* ՈՒՂՂՎԱԾ */
+
+.oval-container {
   position: relative;
   display: inline-block;
-  width: clamp(200px, 65%, 300px);
+  width: 60%;
+  /* Վերադարձված բնագիր լայնություն */
   -webkit-clip-path: ellipse(63% 63% at 54% 58%);
   clip-path: ellipse(63% 63% at 54% 58%);
   overflow: hidden;
-  /* Սա կտրում է փայլը նկարի եզրերով */
+  z-index: 10;
 }
 
 .img_one img {
   width: 100%;
+  height: auto;
   display: block;
   animation: float 5s ease-in-out infinite;
-}
-
-.shine-oval-container::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 100%);
-  transform: skewX(-25deg);
-  animation: shine-fixed 4s infinite;
-}
-
-@keyframes shine-fixed {
-  0% {
-    left: -100%;
-  }
-
-  20% {
-    left: 120%;
-  }
-
-  100% {
-    left: 120%;
-  }
 }
 
 @keyframes float {
@@ -206,18 +186,19 @@ section.photo-section {
   0%,
   100% {
     transform: translateY(0);
+    filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.1));
   }
 
   50% {
-    transform: translateY(-12px);
+    transform: translateY(-10px);
   }
 }
 
-/* --- REVEAL ELEMENTS --- */
+/* --- REVEAL ԱՆԻՄԱՑԻԱ --- */
 .reveal {
   opacity: 0;
   filter: blur(8px);
-  transform: translateY(25px);
+  transform: translateY(20px);
   transition: all 1s ease-out;
 }
 
@@ -225,16 +206,32 @@ section.photo-section {
   opacity: 1;
   filter: blur(0);
   transform: translateY(0);
+  text-align: center;
 }
 
-.text-blok,
-.time-blok,
-.thanks-blok {
+/* --- INVITATION TEXT --- */
+.text-blok {
   width: 90%;
   margin: 40px auto;
   text-align: center;
   position: relative;
   z-index: 4;
+}
+
+.text-decor {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  object-fit: fill;
+}
+
+.inner-content {
+  position: relative;
+  z-index: 2;
+  padding: 30px 20px;
 }
 
 h2,
@@ -246,7 +243,7 @@ h3 {
 }
 
 p {
-  font-size: clamp(13px, 4vw, 15px);
+  font-size: clamp(14px, 4vw, 15px);
   color: #606062;
   line-height: 1.6;
 }
@@ -254,7 +251,7 @@ p {
 h4 {
   font-family: "CosiArm";
   font-size: clamp(45px, 12vw, 55px);
-  margin-top: 10px;
+  margin-top: 15px;
 }
 
 h5 {
@@ -285,7 +282,7 @@ hr {
   transform: scale(1);
 }
 
-/* --- TIME ITEM ANIMATION --- */
+/* TIME ITEMS ANIMATION */
 .time-item,
 hr {
   opacity: 0;
@@ -309,4 +306,11 @@ hr {
 
 .active .time-item:nth-child(4) {
   transition-delay: 0.6s;
+}
+
+/* RESPONSIVE */
+@media screen and (min-width: 768px) {
+  .mine {
+    max-width: 500px;
+  }
 }
