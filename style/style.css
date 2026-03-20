@@ -167,10 +167,9 @@ section.photo-section {
   position: relative;
   display: inline-block;
   width: 60%;
-  /* Վերադարձված բնագիր լայնություն */
   -webkit-clip-path: ellipse(63% 63% at 54% 58%);
   clip-path: ellipse(63% 63% at 54% 58%);
-  overflow: hidden;
+
   z-index: 10;
 }
 
